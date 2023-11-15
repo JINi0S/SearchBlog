@@ -62,6 +62,9 @@ struct MainView: View {
   @StateObject var vm = SearchBlogNetwork()
   @State var showSearchBar: Bool = false
   @State var searchText = ""
+  @State var page: Int = 1
+  @State var currentTag: String = ""
+  
   var body: some View {
     NavigationView {
       VStack {
@@ -69,29 +72,7 @@ struct MainView: View {
         HStack {
           ScrollView(.horizontal) {
             HStack {
-              ForEach(tags, id: \.self) { tag in
-                
-                HStack {
-                  Button {
-                    Task {
-                      try? await vm.searchBlog(query: tag)
-                    }
-                  } label: {
-                    Text(tag)
-                  }
-                  Button {
-                    let idx = tags.firstIndex(of: tag)
-                    tags.remove(at: Int(idx!))
-                  } label: {
-                    Image(systemName: "xmark")
-                  }
-                }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 4)
-                .foregroundStyle(Color.blue.opacity(0.8))
-                .background(Color.blue.opacity(0.2))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-              }
+              tagListView
             }
           }
           .scrollIndicators(.hidden)
@@ -116,15 +97,16 @@ struct MainView: View {
     }
     .task {
       do {
-        try await vm.searchBlog(query: tags.first!)
+        currentTag = tags.first!
+        try await vm.searchBlog(query: currentTag, page: page)
       } catch {}
     }
   }
   
   func stripHTMLTags(from htmlString: String) -> String {
       var string = htmlString.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-      string = string.replacingOccurrences(of: "&#39", with: "", options: .regularExpression, range: nil)
-      string = string.replacingOccurrences(of: "&#34", with: "", options: .regularExpression, range: nil)
+      string = string.replacingOccurrences(of: "&#39;", with: "", options: .regularExpression, range: nil)
+      string = string.replacingOccurrences(of: "&#34;", with: "", options: .regularExpression, range: nil)
 
       return string
   }
@@ -143,7 +125,7 @@ extension MainView {
         showSearchBar = false
         tags.append(searchText)
         Task {
-          try await vm.searchBlog(query: searchText)
+          try await vm.searchBlog(query: searchText, page: 1)
         }
       } label: {
         Image(systemName: "magnifyingglass")
@@ -155,13 +137,42 @@ extension MainView {
     .padding(.vertical, 6)
   }
   
+  private var tagListView: some View {
+    
+    ForEach(tags, id: \.self) { tag in
+      
+      HStack {
+        Button {
+          Task {
+            vm.results = []
+            page = 1
+            currentTag = tag
+            try? await vm.searchBlog(query: currentTag, page: page)
+          }
+        } label: {
+          Text(tag)
+        }
+        Button {
+          let idx = tags.firstIndex(of: tag)
+          tags.remove(at: Int(idx!))
+        } label: {
+          Image(systemName: "xmark")
+        }
+      }
+      .padding(.horizontal, 12)
+      .padding(.vertical, 4)
+      .foregroundStyle(Color.blue.opacity(0.8))
+      .background(Color.blue.opacity(0.2))
+      .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+  }
   @MainActor
   private var scrollView: some View {
     ScrollView {
       LazyVStack(alignment: .leading) {
         ForEach(vm.results, id: \.url) { item in
           NavigationLink {
-            ContentView(title: item.title)
+            ContentView(document: item)
           } label: {
             HStack(spacing: 8) {
               /// Image item.thumbnail
@@ -205,6 +216,18 @@ extension MainView {
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.vertical, 4)
             .foregroundStyle(.black)
+            .onAppear {
+              if item.url == vm.results[vm.results.count-1].url {
+                print(item.title)
+                Task {
+                  do {
+                    page += 1
+                    try await vm.searchBlog(query: currentTag, page: page)
+                    print(vm.results)
+                  } catch { }
+                }
+              }
+            }
           }
         }
       }

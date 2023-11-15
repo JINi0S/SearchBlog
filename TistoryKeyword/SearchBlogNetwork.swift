@@ -12,17 +12,17 @@ struct SearchBlogAPI {
   static let host = "dapi.kakao.com"
   static let path = "/v2/search/"
   
-  func searchBlog(query: String) -> URLComponents {
+  func searchBlog(query: String, page: String) -> URLComponents {
     var components = URLComponents()
     components.scheme = SearchBlogAPI.scheme
     components.host = SearchBlogAPI.host
     components.path = SearchBlogAPI.path + "blog"
-    
+    print(page)
     components.queryItems = [
       URLQueryItem(name: "query", value: query),
       URLQueryItem(name: "sort", value: "recency"),
+      URLQueryItem(name: "page", value: page),
       URLQueryItem(name: "size", value: "20")
-      
     ]
     
     return components
@@ -53,40 +53,25 @@ class SearchBlogNetwork: ObservableObject {
   }
   
   @MainActor
-  func searchBlog(query: String) async throws {
-    guard let url = api.searchBlog(query: query).url else {
+  func searchBlog(query: String, page: Int) async throws {
+    guard let url = api.searchBlog(query: query, page: String(page)).url else {
+      print("SearchNetworkError.invalidURL")
       throw SearchNetworkError.invalidURL
     }
     
     var request = URLRequest(url: url)
     request.httpMethod = "GET"
     request.setValue(APIConstant().apikey, forHTTPHeaderField: "Authorization")
-    let (data, response) = try await URLSession.shared.data(for: request)//URLSession.shared.data(from: url)
+    let (data, response) = try await URLSession.shared.data(for: request)
     
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+      print("SearchNetworkError.failedHTTPRequest")
+      print(response)
       throw SearchNetworkError.failedHTTPRequest
     }
     
-    let output = try? JSONDecoder().decode(RequestResult.self, from: data)
-    
-    results = output?.documents ?? []
-//    let task = session.dataTask(with: request, completionHandler: {[weak self] data, response, error in
-//      guard let data = data, let response = response as? HTTPURLResponse, (200..<300) ~= response.statusCode else {
-//        print("Error: HTTP request failed\(SearchNetworkError.failedHTTPRequest.rawValue) \(data!) \(response!)")
-//        return
-//      }
-//      guard let output = try? JSONDecoder().decode(RequestResult.self, from: data) else {
-//        print("Error: JSON data parsing failed")
-//        return
-//      }
-//
-//      DispatchQueue.main.async { [weak self] in
-//        self!.results = output.documents
-//      }
-//
-//    }
-//    )
-//    // 통신 시작
-//    task.resume()
+    let output = try JSONDecoder().decode(RequestResult.self, from: data).documents
+    print("output", output)
+    results += output // ?? []// output?.documents ?? []
   }
 }

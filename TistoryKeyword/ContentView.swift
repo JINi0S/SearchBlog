@@ -8,19 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-  let title: String
+  let document: Document
+  
     var body: some View {
         VStack {
-            
-          Text(title)
-          Image(systemName: "globe")
-              .imageScale(.large)
-              .foregroundStyle(.tint)
+          Text(document.title)
+            .font(.title)
+          Text(document.contents)
+            .font(.body)
         }
         .padding()
+        .navigationTitle(document.blogname)
     }
 }
 
 #Preview {
-  ContentView(title: "")
+  ContentView(document: Document(title: "", contents: "", url: "", blogname: "", thumbnail: "", datetime: ""))
 }

@@ -100,12 +100,12 @@
 			isa = PBXGroup;
 			children = (
 				60E05FB12AFBD6CE00AC6AE8 /* Info.plist */,
+				60E05F872AFB7E1100AC6AE8 /* Assets.xcassets */,
 				60E05F832AFB7E0F00AC6AE8 /* TistoryKeywordApp.swift */,
 				60E05FAD2AFB7F2100AC6AE8 /* MainView.swift */,
 				60E05F852AFB7E0F00AC6AE8 /* ContentView.swift */,
-				60E05F872AFB7E1100AC6AE8 /* Assets.xcassets */,
-				60E05F892AFB7E1100AC6AE8 /* Preview Content */,
 				60678E122B024EB5009B9558 /* SearchBlogNetwork.swift */,
+				60E05F892AFB7E1100AC6AE8 /* Preview Content */,
 			);
 			path = TistoryKeyword;
 			sourceTree = "<group>";
