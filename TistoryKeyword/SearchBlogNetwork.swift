@@ -30,13 +30,12 @@ struct SearchBlogAPI {
 }
 
 struct APIConstant {
-  let apikey: String = "KakaoAK 395c3fbe7050fa43296c44658fbdd1d3"
+  let apikey: String = Bundle.main.apiKey
   let contentType: String = "application/x-www-form-urlencoded;charset=utf-8"
 }
 
 enum SearchNetworkError: String, Error {
   case invalidURL = "유효하지 않은 URL입니다."
-  case invalidJSON = "유효하지 않은 JSON입니다."
   case failedHTTPRequest = "HTTP 요청에 실패헸습니다."
   case networkError = "네트워크를 확인해주세요."
 }
@@ -46,7 +45,7 @@ class SearchBlogNetwork: ObservableObject {
   private let session: URLSession
   let api = SearchBlogAPI()
   
-  @Published var results = [Document(title: "", contents: "", url: "", blogname: "", thumbnail: "", datetime: "")]//[Document]()]
+  @Published var results: [Document] = []
   
   init(session: URLSession = .shared) {
     self.session = session
