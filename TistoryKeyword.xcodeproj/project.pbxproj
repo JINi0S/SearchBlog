@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		60678E132B024EB5009B9558 /* SearchBlogNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60678E122B024EB5009B9558 /* SearchBlogNetwork.swift */; };
+		60678E1C2B04EA26009B9558 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60678E1B2B04EA26009B9558 /* WebView.swift */; };
+		60678E1F2B051409009B9558 /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60678E1E2B051409009B9558 /* Ex+String.swift */; };
+		60678E212B0778C2009B9558 /* SecureAPIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60678E202B0778C2009B9558 /* SecureAPIKeys.plist */; };
+		60678E232B077ABA009B9558 /* Ex+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60678E222B077ABA009B9558 /* Ex+Bundle.swift */; };
+		60678E312B0B4FC7009B9558 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60678E302B0B4FC7009B9558 /* RequestModel.swift */; };
 		60E05F842AFB7E0F00AC6AE8 /* TistoryKeywordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E05F832AFB7E0F00AC6AE8 /* TistoryKeywordApp.swift */; };
-		60E05F862AFB7E0F00AC6AE8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E05F852AFB7E0F00AC6AE8 /* ContentView.swift */; };
 		60E05F882AFB7E1100AC6AE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60E05F872AFB7E1100AC6AE8 /* Assets.xcassets */; };
 		60E05F8B2AFB7E1100AC6AE8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60E05F8A2AFB7E1100AC6AE8 /* Preview Assets.xcassets */; };
 		60E05F952AFB7E1100AC6AE8 /* TistoryKeywordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E05F942AFB7E1100AC6AE8 /* TistoryKeywordTests.swift */; };
@@ -37,9 +41,13 @@
 
 /* Begin PBXFileReference section */
 		60678E122B024EB5009B9558 /* SearchBlogNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBlogNetwork.swift; sourceTree = "<group>"; };
+		60678E1B2B04EA26009B9558 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		60678E1E2B051409009B9558 /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
+		60678E202B0778C2009B9558 /* SecureAPIKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SecureAPIKeys.plist; sourceTree = "<group>"; };
+		60678E222B077ABA009B9558 /* Ex+Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Bundle.swift"; sourceTree = "<group>"; };
+		60678E302B0B4FC7009B9558 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		60E05F802AFB7E0F00AC6AE8 /* TistoryKeyword.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TistoryKeyword.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E05F832AFB7E0F00AC6AE8 /* TistoryKeywordApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TistoryKeywordApp.swift; sourceTree = "<group>"; };
-		60E05F852AFB7E0F00AC6AE8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		60E05F872AFB7E1100AC6AE8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		60E05F8A2AFB7E1100AC6AE8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		60E05F902AFB7E1100AC6AE8 /* TistoryKeywordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TistoryKeywordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +84,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		60678E1D2B0513EA009B9558 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				60678E1E2B051409009B9558 /* Ex+String.swift */,
+				60678E222B077ABA009B9558 /* Ex+Bundle.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		60678E2F2B0B4F6F009B9558 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				60678E302B0B4FC7009B9558 /* RequestModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		60E05F772AFB7E0F00AC6AE8 = {
 			isa = PBXGroup;
 			children = (
@@ -100,11 +125,14 @@
 			isa = PBXGroup;
 			children = (
 				60E05FB12AFBD6CE00AC6AE8 /* Info.plist */,
+				60678E202B0778C2009B9558 /* SecureAPIKeys.plist */,
 				60E05F872AFB7E1100AC6AE8 /* Assets.xcassets */,
 				60E05F832AFB7E0F00AC6AE8 /* TistoryKeywordApp.swift */,
 				60E05FAD2AFB7F2100AC6AE8 /* MainView.swift */,
-				60E05F852AFB7E0F00AC6AE8 /* ContentView.swift */,
+				60678E1B2B04EA26009B9558 /* WebView.swift */,
 				60678E122B024EB5009B9558 /* SearchBlogNetwork.swift */,
+				60678E1D2B0513EA009B9558 /* Extension */,
+				60678E2F2B0B4F6F009B9558 /* Model */,
 				60E05F892AFB7E1100AC6AE8 /* Preview Content */,
 			);
 			path = TistoryKeyword;
@@ -239,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60678E212B0778C2009B9558 /* SecureAPIKeys.plist in Resources */,
 				60E05F8B2AFB7E1100AC6AE8 /* Preview Assets.xcassets in Resources */,
 				60E05F882AFB7E1100AC6AE8 /* Assets.xcassets in Resources */,
 			);
@@ -265,8 +294,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60E05F862AFB7E0F00AC6AE8 /* ContentView.swift in Sources */,
+				60678E1F2B051409009B9558 /* Ex+String.swift in Sources */,
+				60678E1C2B04EA26009B9558 /* WebView.swift in Sources */,
+				60678E232B077ABA009B9558 /* Ex+Bundle.swift in Sources */,
 				60E05FAE2AFB7F2100AC6AE8 /* MainView.swift in Sources */,
+				60678E312B0B4FC7009B9558 /* RequestModel.swift in Sources */,
 				60678E132B024EB5009B9558 /* SearchBlogNetwork.swift in Sources */,
 				60E05F842AFB7E0F00AC6AE8 /* TistoryKeywordApp.swift in Sources */,
 			);
