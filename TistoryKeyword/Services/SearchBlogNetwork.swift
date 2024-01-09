@@ -7,43 +7,14 @@
 
 import Foundation
 
-struct SearchBlogAPI {
-  static let scheme = "https"
-  static let host = "dapi.kakao.com"
-  static let path = "/v2/search/"
-  
-  func searchBlog(query: String, page: String) -> URLComponents {
-    var components = URLComponents()
-    components.scheme = SearchBlogAPI.scheme
-    components.host = SearchBlogAPI.host
-    components.path = SearchBlogAPI.path + "blog"
-    print(page)
-    components.queryItems = [
-      URLQueryItem(name: "query", value: query),
-      URLQueryItem(name: "sort", value: "recency"),
-      URLQueryItem(name: "page", value: page),
-      URLQueryItem(name: "size", value: "20")
-    ]
-    
-    return components
-  }
-}
-
 struct APIConstant {
   let apikey: String = Bundle.main.apiKey
   let contentType: String = "application/x-www-form-urlencoded;charset=utf-8"
 }
 
-enum SearchNetworkError: String, Error {
-  case invalidURL = "유효하지 않은 URL입니다."
-  case failedHTTPRequest = "HTTP 요청에 실패헸습니다."
-  case networkError = "네트워크를 확인해주세요."
-}
-
 @MainActor
 class SearchBlogNetwork: ObservableObject {
   private let session: URLSession
-  let api = SearchBlogAPI()
   
   @Published var results: [Document] = []
   
@@ -51,9 +22,10 @@ class SearchBlogNetwork: ObservableObject {
     self.session = session
   }
   
+  // TODO: SearchNetworkError 에러핸들링
   @MainActor
   func searchBlog(query: String, page: Int) async throws {
-    guard let url = api.searchBlog(query: query, page: String(page)).url else {
+    guard let url = URL.makeURL(query: query, page: String(page)).url else {
       print("SearchNetworkError.invalidURL")
       throw SearchNetworkError.invalidURL
     }
@@ -64,13 +36,12 @@ class SearchBlogNetwork: ObservableObject {
     let (data, response) = try await URLSession.shared.data(for: request)
     
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-      print("SearchNetworkError.failedHTTPRequest")
       print(response)
       throw SearchNetworkError.failedHTTPRequest
     }
     
     let output = try JSONDecoder().decode(RequestResult.self, from: data).documents
     print("output", output)
-    results += output // ?? []// output?.documents ?? []
+    results += output 
   }
 }

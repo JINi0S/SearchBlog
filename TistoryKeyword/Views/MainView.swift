@@ -7,31 +7,6 @@
 
 import SwiftUI
 
-extension URL {
-  static let baseURL = "https://dapi.kakao.com/v2/search/"
-  
-  static func makeEndPointString(_ endPoint: String) -> String {
-    return baseURL + endPoint
-  }
-}
-
-enum EndPoint {
-  case blog
-  case cafe
-  
-  var requestURL: String {
-    switch self {
-    case .blog:
-      return URL.makeEndPointString("blog")
-    case .cafe:
-      return URL.makeEndPointString("cafe")
-    }
-  }
-}
-
-
-
-
 struct MainView: View {
   @State var tags: [String] = ["서울", "쏘카", "포항", "애플아카데미"]
   @StateObject var vm = SearchBlogNetwork()
@@ -55,7 +30,6 @@ struct MainView: View {
   
   @State private var dateString = "2023-11-15T23:58:47.000+09:00"
   @State private var convertedDate: String?
-    
   
   var body: some View {
     NavigationView {
